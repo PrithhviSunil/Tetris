@@ -1,0 +1,11 @@
+Step 1
+    Create a Game Window and Game loop
+    Define Tetromino shapes and their rotations using a 2D list, append all to one list called Shapes
+    Define the colours for each tetromino in a list
+    Import the Tetromino and Colour lists
+    Create a Draw_Grid Function (Draws grid(with colours) based on cell being empty or filled)
+    Add Draw_Grid to game loop and refresh the window 
+
+Step 2
+    Create a tetromino class to handing the tetrominoes in the game
+    
