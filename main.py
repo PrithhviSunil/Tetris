@@ -16,7 +16,7 @@ Screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Tetris")
 
 
-
+#Drawing Grid 
 def draw_grid():
     block_size = 20
     for i in range(Board_height):
@@ -27,9 +27,14 @@ def draw_grid():
             #draw rectangles
             rectangle = pygame.Rect(x, y, block_size, block_size)
             if board[i][j]!=0: #get colours
-                colour = Colours_list[board[i][j]-1]
+                col_index = board[i][j]-1
+                colour = Colours_list[col_index]
                 pygame.draw.rect(Screen,colour,rectangle)
             pygame.draw.rect(Screen, WHITE, rectangle, 1)
+
+#Tetromino Class
+def tetromino():
+    pass
 
 # Main loop
 running = True
