@@ -6,10 +6,24 @@ from tetromino import Tetromino
 pygame.init()
 
 # Set up display
-WIDTH, HEIGHT = 200, 400
+WIDTH, HEIGHT = 350, 400
 WHITE = (255, 255,255)
 BLACK = (0,0,0)
 
+#TITLE AND SCORE
+font = pygame.font.SysFont("Courier", 20)
+Title_T = font.render("T", True, (255,0,0)) #RED
+Title_E = font.render("E", True, (255, 165, 0)) #ORANGE
+Title_T2 = font.render("T", True, (255,255,0)) #YELLOW
+Title_R = font.render("R", True, (0,255,0)) #GREEN
+Title_I = font.render("I", True, (0,0,255)) #BLUE
+Title_S = font.render("S", True, (128,0,128)) #PURPLE
+
+title_x = 230
+title_y = 150
+spacing = 15 #pixels between each letter
+
+score_total = 0
 #set up timers
 flag = 0
 fall_speed = 1000 #1 second
@@ -59,9 +73,24 @@ def draw_piece():
                 pygame.draw.rect(Screen, tetromino.colour,rectangle)
 
 
-   
-
-
+#check filled lines
+def checkLines(board):
+    lines = 0
+    points = 0
+    new_grid = []
+    for row in board:
+        if 0 not in row:
+            lines +=1
+            points +=10
+        else:
+            new_grid.append(row) #refresh the grid
+    
+    #add rows at the top
+    for i in range(lines):
+        empty_row = [0 for i in range(Board_width)]
+        new_grid.insert(0, empty_row)
+    
+    return new_grid, lines, points
 
 # Main loop
 game = True
@@ -75,18 +104,46 @@ while game:
             tetromino.move_down()
         else:
             tetromino.lockPieceOnBoard(board)
-        
         #spawn new
             Shape = random.choice(Shapes_list)
             index = Shapes_list.index(Shape)
             colour = Colours_list[index]
             tetromino = Tetromino(Shape, colour)
-        
+            if tetromino.landed(board):
+                game=False
+                print("Game Over ☠️")
+
+        #check for any filled lines
+        board, lines, points = checkLines(board)
+        if lines !=0:
+            score_total += points
+            if lines !=1:
+                print(f"cleared: {lines} lines")
+            else:
+                print(f"cleared: {lines} line")
+
         flag = current
+
     #draw grid and piece 
     draw_grid()
     draw_piece()
-    pygame.display.flip() #refresh window 
+
+    #draw score onto screen
+    score = font.render(f"Score: {score_total}", True, (0, 255, 255))
+    Screen.blit(score, (230, 50))
+
+    #draw TETRIS onto screen
+    Screen.blit(Title_T, (title_x, title_y))
+    Screen.blit(Title_E, (title_x + spacing, title_y))
+    Screen.blit(Title_T2, (title_x + 2*spacing, title_y))
+    Screen.blit(Title_R, (title_x + 3*spacing, title_y))
+    Screen.blit(Title_I, (title_x + 4*spacing, title_y))
+    Screen.blit(Title_S, (title_x + 5*spacing, title_y))
+
+    #Refresh window
+    pygame.display.flip() 
+
+    #check for events
     for event in pygame.event.get():
         #piece movement logic
         if not tetromino.landed(board):
