@@ -8,4 +8,15 @@ Step 1
 
 Step 2
     Create a tetromino class to handing the tetrominoes in the game
+    Add boundary checks
+    Wall Kick Logic *****
+    Lock pieces to board
+    Spawn new piece once previous is locked
+
+Step 3
+    Implement Line Clearing logic****
+    Score logic 
+    Add text rectangles to update the score in the game window
+    Extend the window to display "TETRIS" and the score
+    Game Over Logic
     
